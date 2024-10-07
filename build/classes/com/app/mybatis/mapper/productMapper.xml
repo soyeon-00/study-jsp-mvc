@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="product">
+	<insert id="insert" parameterType="com.app.vo.ProductVO">
+		INSERT INTO TBL_PRODUCT(ID, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STOCK)
+		VALUES(PRODUCT_SEQ.NEXTVAL, #{productName}, #{productPrice}, #{productStock})
+	</insert>
+	
+	<select id="selectAll" resultType="ProductVO">
+		SELECT ID, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STOCK
+		FROM TBL_PRODUCT
+		ORDER BY ID ASC
+	</select>
+	
+	<select id="select" parameterType="Long" resultType="ProductVO">
+		SELECT ID, PRODUCT_NAME, PRODUCT_PRICE, PRODUCT_STOCK
+		FROM TBL_PRODUCT
+		WHERE ID =#{id}
+	</select>
+	
+	<select id="selectId" resultType="Long">
+		SELECT ID 
+		FROM (
+			SELECT ID 
+			FROM TBL_PRODUCT
+			ORDER BY ID DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+
+	
+	<update id="update" parameterType="ProductVO">
+		UPDATE TBL_PRODUCT
+		SET PRODUCT_NAME = #{productName}, PRODUCT_PRICE = #{productPrice}, PRODUCT_STOCK = #{productStock}
+		WHERE ID = #{id}
+	</update>
+	
+	<delete id="delete" parameterType="Long">
+		DELETE FROM TBL_PRODUCT
+		WHERE ID = #{id}
+	</delete>
+	
+</mapper>
